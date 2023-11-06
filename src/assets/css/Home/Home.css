@@ -1,0 +1,45 @@
+.action__book {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* table */
+table {
+  border-collapse: collapse;
+  margin: 25px 0px;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+thead tr {
+  background-color: green;
+  color: white;
+  text-align: left;
+}
+
+table th {
+  padding: 12px 20px;
+  text-align: center;
+}
+
+table td {
+  padding: 6px 20px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+tbody tr:last-child {
+  border-bottom: 2px red solid;
+}
+
+tbody td {
+  vertical-align: middle;
+}
