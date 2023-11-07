@@ -1,9 +1,40 @@
-import { bookData } from "../data";
+import { Button } from "react-bootstrap";
+import { bookData, modals } from "../data";
 import { generateDate } from "../utils/GenerateDate";
+import ModalComponent from "./Modal";
+import { useState } from "react";
 
 const DataBook = () => {
+  const [isSave, setIsSave] = useState(false);
+
+  const [showModal, setShowModal] = useState(null);
+
+  const [selectedBookID, setSelectedBookID] = useState(null);
+
+  const openModal = (modalTitle) => {
+    setShowModal(modalTitle);
+  };
+
+  const handleModal = (modalTitle, idBook) => {
+    openModal(modalTitle);
+    setSelectedBookID(idBook);
+    if (modalTitle === "View") {
+      setIsSave(false);
+    } else if (modalTitle === "Update") {
+      setIsSave(true);
+    } else if (modalTitle === "Delete") {
+      setIsSave(true);
+    }
+  };
+
   return (
     <>
+      <ModalComponent
+        showModal={showModal}
+        setShowModal={setShowModal}
+        isSave={isSave}
+        selectedBookId={selectedBookID}
+      />
       {bookData.map((data) => {
         return (
           <>
@@ -15,9 +46,24 @@ const DataBook = () => {
               <td>{generateDate(data.createdAt)}</td>
               <td>
                 <div className="action__book">
-                  <button className="btn btn-sm btn-primary">View</button>
-                  <button className="btn btn-sm btn-danger">Delete</button>
-                  <button className="btn btn-sm btn-secondary ">Update</button>
+                  {modals.map((modal) => (
+                    <div key={modal.id}>
+                      <Button
+                        variant={
+                          modal.title === "View"
+                            ? "primary"
+                            : modal.title === "Update"
+                            ? "secondary"
+                            : modal.title === "Delete"
+                            ? "danger"
+                            : "light"
+                        }
+                        onClick={() => handleModal(modal.title, data.id)}
+                      >
+                        {modal.title}
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               </td>
             </tr>

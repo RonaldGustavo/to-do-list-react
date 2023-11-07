@@ -30,3 +30,24 @@ export const bookData = [
     createdAt: "2022-04-14T04:27:34.572Z",
   },
 ];
+
+export const modals = [
+  {
+    id: bookData[0].id,
+    title: "View",
+    body: "test",
+    isSave: false,
+  },
+  {
+    id: bookData[1].id,
+    title: "Update",
+    body: "test Edit",
+    isSave: true,
+  },
+  {
+    id: bookData[2].id,
+    title: "Delete",
+    body: "test Edit",
+    isSave: true,
+  },
+];

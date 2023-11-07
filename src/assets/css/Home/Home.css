@@ -43,3 +43,8 @@ tbody tr:last-child {
 tbody td {
   vertical-align: middle;
 }
+
+/* form  */
+.input__form {
+  width: 100%;
+}
