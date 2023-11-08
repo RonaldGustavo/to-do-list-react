@@ -4,48 +4,48 @@ export const bookData = [
   {
     id: generateId(),
     title: "Babel",
-    body: "Babel merupakan tools open-source yang digunakan untuk mengubah sintaks ECMAScript 2015+ menjadi sintaks yang didukung oleh JavaScript engine versi lama. Babel sering dipakai ketika kita menggunakan sintaks terbaru termasuk sintaks JSX.",
+    body: "Babel merupakan tools.",
     archived: false,
-    createdAt: "2022-04-14T04:27:34.572Z",
+    createdAt: "2022-01-11T04:27:34.572Z",
   },
   {
     id: generateId(),
     title: "Dicoding",
-    body: "Saatnya bijak memilih sumber belajar. Tak hanya materi yang terjamin,Dicoding Academy juga memiliki reviewer profesional yang akan mengulas kode Anda.",
+    body: "Saatnya bijak memilih.",
     archived: true,
-    createdAt: "2022-04-14T04:27:34.572Z",
+    createdAt: "2022-08-24T04:27:34.572Z",
   },
   {
     id: generateId(),
     title: "Frontend",
-    body: "Babel merupakan tools open-source yang digunakan untuk mengubah sintaks ECMAScript 2015+ menjadi sintaks yang didukung oleh JavaScript engine versi lama. Babel sering dipakai ketika kita menggunakan sintaks terbaru termasuk sintaks JSX.",
+    body: "Babel merupakan tools open.",
     archived: false,
     createdAt: "2022-04-14T04:27:34.572Z",
   },
   {
     id: generateId(),
     title: "IDcamp",
-    body: "Babel merupakan tools open-source yang digunakan untuk mengubah sintaks ECMAScript 2015+ menjadi sintaks yang didukung oleh JavaScript engine versi lama. Babel sering dipakai ketika kita menggunakan sintaks terbaru termasuk sintaks JSX.",
+    body: "Babel merupakan .",
     archived: false,
-    createdAt: "2022-04-14T04:27:34.572Z",
+    createdAt: "2022-06-20T04:27:34.572Z",
   },
 ];
 
 export const modals = [
   {
-    id: bookData[0].id,
+    id: bookData[0]?.id,
     title: "View",
     body: "test",
     isSave: false,
   },
   {
-    id: bookData[1].id,
+    id: bookData[1]?.id,
     title: "Update",
     body: "test Edit",
     isSave: true,
   },
   {
-    id: bookData[2].id,
+    id: bookData[2]?.id,
     title: "Delete",
     body: "test Edit",
     isSave: true,

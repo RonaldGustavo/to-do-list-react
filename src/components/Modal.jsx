@@ -1,33 +1,73 @@
 import { Button, Modal } from "react-bootstrap";
-import { bookData, modals } from "../data";
+import { modals } from "../data";
 import ModalView from "./modal/ModalView";
 import ModalDelete from "./modal/ModalDelete";
+import ModalUpdate from "./modal/ModalUpdate";
+import { useState } from "react";
 
 const ModalComponent = ({
   showModal,
   setShowModal,
   isSave,
   selectedBookId,
+  data,
+  setData,
 }) => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [archived, setarchived] = useState("");
+  const [createdAt, setcreatedAt] = useState("");
+
   const closeModal = () => {
     setShowModal(null);
   };
 
   const handleDelete = () => {
     alert("Data berhasil dihapus");
+    const updatedBook = data.filter((data) => data?.id !== selectedBookId);
+    setData(updatedBook);
     setShowModal(null);
   };
 
   const handleUpdate = () => {
-    alert("update");
-    setShowModal(null);
+    const updateBook = {
+      id: selectedBook?.id,
+      title: title,
+      body: body,
+      archived: archived,
+      createdAt: createdAt,
+    };
+
+    if (!title && !body && !archived && !createdAt) {
+      alert("Form wajib di isi semua!!!");
+    } else {
+      const bookIndex = data.findIndex((book) => book?.id === selectedBookId);
+
+      if (bookIndex !== -1) {
+        // Create a new array with the updated user
+        const updateBooks = [...data];
+        updateBooks[bookIndex] = updateBook;
+
+        setData(updateBooks);
+        // Reset the input fields
+        setBody("");
+        setTitle("");
+        setarchived("");
+        setcreatedAt("");
+      }
+      alert("update");
+      setShowModal(null);
+    }
+
+    console.log(title);
+    console.log(createdAt);
   };
 
-  console.log(isSave);
+  // console.log(isSave);
 
-  const selectedBook = bookData.find((book) => book.id === selectedBookId);
+  const selectedBook = data.find((book) => book?.id === selectedBookId);
 
-  console.log(selectedBook);
+  // console.log(selectedBook);
   return (
     <>
       {modals.map((modal) => (
@@ -43,7 +83,13 @@ const ModalComponent = ({
             {modal.title === "View" ? (
               <ModalView data={selectedBook} />
             ) : modal.title === "Update" ? (
-              <p>Updated modal</p>
+              <ModalUpdate
+                data={selectedBook}
+                setTitle={setTitle}
+                setBody={setBody}
+                setarchived={setarchived}
+                setcreatedAt={setcreatedAt}
+              />
             ) : (
               <ModalDelete data={selectedBook} />
             )}
@@ -57,7 +103,7 @@ const ModalComponent = ({
                 variant="primary"
                 onClick={modal.title === "Update" ? handleUpdate : handleDelete}
               >
-                save
+                {modal.title === "Update" ? "Save" : "Delete"}
               </Button>
             )}
           </Modal.Footer>

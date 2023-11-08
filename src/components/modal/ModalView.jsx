@@ -11,7 +11,7 @@ const ModalView = ({ data }) => {
         name="id"
         disabled
         className="input__form"
-        value={data.id}
+        value={data?.id}
       />
       <br />
       <label htmlFor="title">title</label>
@@ -26,7 +26,8 @@ const ModalView = ({ data }) => {
       <br />
       <label htmlFor="body">body</label>
       <br />
-      <input
+      <textarea
+        rows={5}
         id="body"
         name="body"
         disabled
