@@ -34,7 +34,7 @@ const ModalView = ({ data }) => {
         className="input__form"
         value={data.body}
       />
-      <br />
+      {/* <br />
       <label htmlFor="archived">archived</label>
       <br />
       <input
@@ -43,7 +43,7 @@ const ModalView = ({ data }) => {
         disabled
         className="input__form"
         value={data.archived}
-      />
+      /> */}
       <br />
       <label htmlFor="createdAt">createdAt</label>
       <br />

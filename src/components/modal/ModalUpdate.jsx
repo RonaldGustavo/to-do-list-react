@@ -21,13 +21,13 @@ const ModalUpdate = ({
     setBody(body ? body : data.body);
     setcreatedAt(createdAt ? createdAt : data.createdAt);
     setarchived(archived ? archived : data.archived);
-    setLimit(50 - (body ? body.length : data.body.length));
+    setLimit(50 - (title ? title.length : data.title.length));
   }, [title, body, archived, createdAt]);
 
-  const handleBodyChange = (e) => {
+  const handleTitleChange = (e) => {
     const newValue = e.target.value;
     if (newValue.length <= 50) {
-      setbodyLocal(newValue);
+      setTitleLocal(newValue);
       setLimit(50 - newValue.length);
     }
   };
@@ -53,10 +53,13 @@ const ModalUpdate = ({
           name="title"
           className="input__form"
           placeholder={data.title}
-          value={title}
-          onChange={(e) => setTitleLocal(e.target.value)}
+          value={title || ""}
+          onChange={handleTitleChange}
         />
         <br />
+        <p style={{ color: "red", fontSize: "0.8rem" }}>
+          {limit} left characters
+        </p>
         <label htmlFor="body">body</label>
         <br />
         <textarea
@@ -65,12 +68,9 @@ const ModalUpdate = ({
           className="input__form"
           placeholder={data.body}
           value={body}
-          onChange={handleBodyChange}
+          onChange={(e) => setbodyLocal(e.target.value)}
         />
-        <br />
-        <p style={{ color: "red", fontSize: "0.8rem" }}>
-          {limit} left characters
-        </p>
+        {/* <br />
         <label htmlFor="archived">archived</label>
         <br />
         <select
@@ -82,7 +82,7 @@ const ModalUpdate = ({
         >
           <option value="true">True</option>
           <option value="false">False</option>
-        </select>
+        </select> */}
         <br />
         <label htmlFor="createdAt">createdAt</label>
         <br />

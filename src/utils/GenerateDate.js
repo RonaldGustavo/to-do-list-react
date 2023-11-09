@@ -1,8 +1,9 @@
 export const generateDate = (date) => {
   const initiatedate = new Date(date).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
+    weekday: "long",
     year: "numeric",
+    month: "long",
+    day: "numeric",
   });
   return initiatedate;
 };

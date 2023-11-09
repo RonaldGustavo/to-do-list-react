@@ -44,7 +44,7 @@ const DataBook = ({ data, setData }) => {
               <td>{data?.id}</td>
               <td>{data?.title}</td>
               <td>{data?.body}</td>
-              <td>{data.archived ? "True" : "False"}</td>
+              {/* <td>{data.archived ? "True" : "False"}</td> */}
               <td>{generateDate(data.createdAt)}</td>
               <td>
                 <div className="action__book">

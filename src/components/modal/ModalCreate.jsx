@@ -19,7 +19,7 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
   const id = generateId();
   // console.log("test", data);
   const handleCreate = () => {
-    if (!title || !body || !archived || !createdAt) {
+    if (!title || !body || !createdAt) {
       alert("wajib di isi");
     } else {
       const newBook = {
@@ -40,12 +40,12 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
     }
   };
 
-  const handleBodyChange = (e) => {
+  const handleTitleChange = (e) => {
     const newValue = e.target.value;
-    if (newValue.length < 50) {
-      setBody(newValue);
+    if (newValue.length <= 50) {
+      setTitle(newValue);
+      setLimit(50 - newValue.length);
     }
-    setLimit(50 - newValue.length);
   };
 
   return (
@@ -64,9 +64,12 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
               className="input__form"
               placeholder="input Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleTitleChange}
             />
             <br />
+            <p style={{ color: "red", fontSize: "0.8rem" }}>
+              {limit} left characters
+            </p>
             <label htmlFor="body">body</label>
             <br />
             <textarea
@@ -75,13 +78,10 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
               className="input__form"
               placeholder={`Input Body (Max ${limit} characters)`}
               value={body}
-              onChange={handleBodyChange}
+              onChange={(e) => setBody(e.target.value)}
             />
             <br />
-            <p style={{ color: "red", fontSize: "0.8rem" }}>
-              {limit} left characters
-            </p>
-            <label htmlFor="archived">archived</label>
+            {/* <label htmlFor="archived">archived</label>
             <br />
             <select
               id="archived"
@@ -92,7 +92,7 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
             >
               <option value="true">true</option>
               <option value="false">false</option>
-            </select>
+            </select> */}
             <label htmlFor="createdAt">createdAt</label>
             <br />
             <input

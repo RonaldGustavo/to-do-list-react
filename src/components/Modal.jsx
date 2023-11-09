@@ -38,7 +38,7 @@ const ModalComponent = ({
       createdAt: createdAt,
     };
 
-    if (!title && !body && !archived && !createdAt) {
+    if (!title && !body && !createdAt) {
       alert("Form wajib di isi semua!!!");
     } else {
       const bookIndex = data.findIndex((book) => book?.id === selectedBookId);

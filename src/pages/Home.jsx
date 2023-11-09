@@ -17,7 +17,7 @@ const HomePage = () => {
       data.id.toLowerCase().includes(searchText) ||
       data.title.toLowerCase().includes(searchText) ||
       data.body.toLowerCase().includes(searchText) ||
-      data.archived.toString().includes(searchText) ||
+      // data.archived.toString().includes(searchText) ||
       data.createdAt.toString().toLowerCase().includes(searchText)
     );
   });
@@ -44,7 +44,7 @@ const HomePage = () => {
               <th>No</th>
               <th>Title</th>
               <th>Body</th>
-              <th>Archived</th>
+              {/* <th>Archived</th> */}
               <th>CreatedAt</th>
               <th>Action</th>
             </tr>
