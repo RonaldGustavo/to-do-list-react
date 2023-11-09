@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalCreate from "./modal/ModalCreate";
 
-const HeaderLayout = ({ data, setData, handleSearch }) => {
+const HeaderLayout = ({ data, setData, setSearch }) => {
   const [showModal, setShowModal] = useState(null);
 
   const openModal = (modalTitle) => {
@@ -24,7 +24,7 @@ const HeaderLayout = ({ data, setData, handleSearch }) => {
         type="text"
         placeholder="Input Search..."
         style={{ borderRadius: "7px", padding: "10px", fontSize: "0.9rem" }}
-        onChange={handleSearch}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <button className="btn btn-warning" onClick={() => handleModal("create")}>
         Create

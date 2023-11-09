@@ -11,21 +11,14 @@ const HomePage = () => {
     setData(bookData);
   }, []);
 
-  console.log(data);
-
-  // const handleSearch = (e) => {
-  //   const currentValue = e.target.value;
-  //   setSearch(currentValue);
-  // };
-
-  const searchText = search.toLowerCase();
-
   const filterData = data.filter((data) => {
+    const searchText = search.toLowerCase();
     return (
-      data.id.toString().includes(searchText) ||
+      data.id.toLowerCase().includes(searchText) ||
       data.title.toLowerCase().includes(searchText) ||
       data.body.toLowerCase().includes(searchText) ||
-      data.archived.toString().includes(searchText)
+      data.archived.toString().includes(searchText) ||
+      data.createdAt.toString().toLowerCase().includes(searchText)
     );
   });
 
@@ -39,7 +32,11 @@ const HomePage = () => {
           className="wrapper__header"
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <HeaderLayout data={filterData} setData={setData} />
+          <HeaderLayout
+            data={filterData}
+            setData={setData}
+            setSearch={setSearch}
+          />
         </div>
         <table>
           <thead>
@@ -53,8 +50,8 @@ const HomePage = () => {
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
-              <DataBook data={data} setData={setData} />
+            {filterData.length > 0 ? (
+              <DataBook data={filterData} setData={setData} />
             ) : (
               <p style={{ color: "red", fontSize: "1.5rem" }}>
                 {" "}

@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import { modals } from "../data";
 import { generateDate } from "../utils/GenerateDate";
 import ModalComponent from "./Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const DataBook = ({ data, setData }) => {
   const [isSave, setIsSave] = useState(false);

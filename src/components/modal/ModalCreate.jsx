@@ -17,7 +17,7 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
   };
 
   const id = generateId();
-  console.log("test", data);
+  // console.log("test", data);
   const handleCreate = () => {
     if (!title || !body || !archived || !createdAt) {
       alert("wajib di isi");
