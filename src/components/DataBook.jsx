@@ -1,77 +1,56 @@
 import { Button } from "react-bootstrap";
-import { modals } from "../data";
 import { generateDate } from "../utils/GenerateDate";
-import ModalComponent from "./Modal";
-import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const DataBook = ({ data, setData }) => {
-  const [isSave, setIsSave] = useState(false);
-
-  const [showModal, setShowModal] = useState(null);
-
-  const [selectedBookID, setSelectedBookID] = useState(null);
-
-  const openModal = (modalTitle) => {
-    setShowModal(modalTitle);
-  };
-
-  const handleModal = (modalTitle, idBook) => {
-    openModal(modalTitle);
-    setSelectedBookID(idBook);
-    if (modalTitle === "View") {
-      setIsSave(false);
-    } else if (modalTitle === "Update") {
-      setIsSave(true);
-    } else if (modalTitle === "Delete") {
-      setIsSave(true);
-    }
-  };
-
+const DataBook = ({ data, setData, onDragStart, dragOverId, boardMode, handleModal }) => {
   return (
     <>
-      <ModalComponent
-        showModal={showModal}
-        setShowModal={setShowModal}
-        isSave={isSave}
-        selectedBookId={selectedBookID}
-        data={data}
-        setData={setData}
-      />
-      {data.map((data) => {
-        return (
-          <>
-            <tr>
-              <td>{data?.id}</td>
-              <td>{data?.title}</td>
-              <td>{data?.body}</td>
-              {/* <td>{data.archived ? "True" : "False"}</td> */}
-              <td>{generateDate(data.createdAt)}</td>
-              <td>
-                <div className="action__book">
-                  {modals.map((modal) => (
-                    <div key={modal?.id}>
-                      <Button
-                        variant={
-                          modal.title === "View"
-                            ? "primary"
-                            : modal.title === "Update"
-                            ? "secondary"
-                            : modal.title === "Delete"
-                            ? "danger"
-                            : "light"
-                        }
-                        onClick={() => handleModal(modal?.title, data?.id)}
-                      >
-                        {modal.title}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </td>
-            </tr>
-          </>
-        );
-      })}
+      {data.map((data) => (
+        <div
+          key={data.id}
+          className={`task-card jira-card-view`}
+          draggable={boardMode}
+          onDragStart={boardMode ? () => onDragStart(data) : undefined}
+          style={{
+            margin: "0 auto 18px auto",
+            cursor: boardMode ? "grab" : "default",
+            position: "relative",
+            paddingBottom: 44,
+          }}
+        >
+          <div className="task-card-header">
+            <span className="task-card-title">{data?.title}</span>
+            <span className="task-card-date">
+              {generateDate(data.createdAt)}
+            </span>
+          </div>
+          <div className="task-card-body">{data?.body}</div>
+          <div className="action__book">
+            <Button
+              className="btn-view"
+              size="sm"
+              onClick={() => handleModal("View", data?.id, false)}
+            >
+              <FontAwesomeIcon icon={faEye} color="#22c55e" />
+            </Button>
+            <Button
+              className="btn-update"
+              size="sm"
+              onClick={() => handleModal("Update", data?.id, true)}
+            >
+              <FontAwesomeIcon icon={faPen} color="#f59e42" />
+            </Button>
+            <Button
+              className="btn-delete"
+              size="sm"
+              onClick={() => handleModal("Delete", data?.id, true)}
+            >
+              <FontAwesomeIcon icon={faTrash} color="#ef4444" />
+            </Button>
+          </div>
+        </div>
+      ))}
     </>
   );
 };

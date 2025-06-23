@@ -1,12 +1,92 @@
-.action__book {
-  display: flex;
-  gap: 3px;
-  justify-content: center;
-  align-items: center;
+body {
+  background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+  color: #23272f;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  min-height: 100vh;
 }
 
-/* table */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: flex-start;
+  margin-top: 32px;
+}
+
+.task-card.jira-card-view {
+  background: linear-gradient(120deg, #f0f4ff 60%, #e0f7fa 100%);
+  border: 1.5px solid #b6c6e3;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(80,120,200,0.10);
+  padding: 22px 20px 18px 20px;
+  margin-bottom: 0;
+  transition: box-shadow 0.2s, border 0.2s, background 0.2s, transform 0.15s;
+  min-width: 300px;
+  max-width: 320px;
+  width: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: grab;
+  position: relative;
+  overflow: hidden;
+}
+.task-card.jira-card-view:hover {
+  box-shadow: 0 8px 32px rgba(97,165,255,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  border: 2px solid #61a5ff;
+  transform: translateY(-2px) scale(1.02);
+  /* No text or color changes on hover for consistency */
+}
+.task-card.jira-card-view.drag-over {
+  border: 2px solid #61a5ff;
+  background: #e3f0ff;
+  box-shadow: 0 4px 16px rgba(97,165,255,0.15);
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.task-card-title {
+  font-weight: 700;
+  font-size: 1.18rem;
+  color: #23272f;
+  flex: 1;
+  word-break: break-word;
+  letter-spacing: 0.01em;
+}
+.task-card-date {
+  font-size: 0.85rem;
+  color: #61a5ff;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+.task-card-body {
+  color: #4b5563;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  min-height: 48px;
+  word-break: break-word;
+}
+.action__book {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+}
+
 table {
+  background: #23272f;
+  color: #e4e6ea;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   border-collapse: collapse;
   margin: 10px 0px;
   width: 100%;
@@ -14,13 +94,12 @@ table {
 }
 
 thead tr {
-  background-color: green;
-  color: white;
-  text-align: left;
+  background-color: #2d333b;
+  color: #61a5ff;
 }
 
-table th {
-  padding: 12px 20px;
+table th, table td {
+  padding: 14px 20px;
   text-align: center;
 }
 
@@ -29,22 +108,360 @@ table td {
 }
 
 tbody tr {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #353b45;
+  transition: background 0.2s;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f3f3f3;
+  background-color: #23272f;
+}
+
+tbody tr:hover {
+  background: #2d333b;
 }
 
 tbody tr:last-child {
-  border-bottom: 2px red solid;
+  border-bottom: 2px solid #61a5ff;
 }
 
-tbody td {
-  vertical-align: middle;
+button, .btn {
+  background: linear-gradient(90deg, #61a5ff 60%, #38bdf8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(97,165,255,0.10);
+}
+button:hover, .btn:hover {
+  background: linear-gradient(90deg, #38bdf8 60%, #61a5ff 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(97,165,255,0.18);
+}
+.btn-view {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-view svg path, .btn-view svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-view:hover {
+  background: #15803d;
+  color: #fff;
+}
+.btn-update {
+  background: #f59e42;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-update svg path, .btn-update svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-update:hover {
+  background: #c97a1c;
+  color: #fff;
+}
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-delete svg path, .btn-delete svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-delete:hover {
+  background: #b91c1c;
+  color: #fff;
 }
 
-/* form  */
-.input__form {
+.wrapper__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 24px 0;
+  padding: 0 8px;
+}
+.search-bar {
+  background: #f0f4ff;
+  border: 1.5px solid #b6c6e3;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  color: #23272f;
+  outline: none;
+  width: 260px;
+  margin-left: 12px;
+  transition: border 0.2s;
+}
+.search-bar:focus {
+  border: 2px solid #61a5ff;
+}
+
+.modal, .modal-content {
+  background: #fff !important;
+  color: #23272f;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 32px rgba(97,165,255,0.18) !important;
+  padding: 32px 28px !important;
+  max-width: 420px;
   width: 100%;
+  border: none !important;
+}
+.modal-header, .modal-footer {
+  border: none !important;
+  background: transparent !important;
+}
+.modal-title {
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  color: #23272f !important;
+  letter-spacing: 0.01em;
+}
+.input__form, input, textarea {
+  background: #f0f4ff;
+  color: #23272f;
+  border: 1.5px solid #b6c6e3;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.input__form:focus, input:focus, textarea:focus {
+  border: 2px solid #61a5ff;
+}
+
+.todolist-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #2563eb;
+  margin: 32px 0 12px 0;
+  text-shadow: 0 2px 8px #e0e7ff;
+}
+
+.task-card {
+  background: #23272f;
+  border: 1px solid #353b45;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.status-todo { color: #61a5ff; }
+.status-inprogress { color: #f7b731; }
+.status-done { color: #2ecc71; }
+
+.board-grid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+.board-column {
+  flex: 1;
+  min-width: 320px;
+  max-width: 370px;
+  background: linear-gradient(135deg, #f0f4ff 80%, #e0f7fa 100%);
+  border-radius: 20px;
+  padding: 22px 18px 18px 18px;
+  min-height: 520px;
+  box-shadow: 0 4px 24px rgba(80,120,200,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+  border: 1.5px solid #b6c6e3;
+  position: relative;
+}
+.board-column.drag-over {
+  background: #e0f2fe;
+  box-shadow: 0 4px 24px rgba(97,165,255,0.12);
+}
+.board-column h2 {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 22px;
+  letter-spacing: 0.01em;
+  padding: 8px 0 8px 0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(80,120,200,0.04);
+}
+.board-column h2.todo {
+  color: #2563eb;
+  border-bottom: 3px solid #2563eb;
+}
+.board-column h2.inprogress {
+  color: #f59e42;
+  border-bottom: 3px solid #f59e42;
+}
+.board-column h2.done {
+  color: #22c55e;
+  border-bottom: 3px solid #22c55e;
+}
+
+.action__book {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+}
+.btn-view {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-view svg path, .btn-view svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-view:hover {
+  background: #15803d;
+  color: #fff;
+}
+.btn-update {
+  background: #f59e42;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-update svg path, .btn-update svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-update:hover {
+  background: #c97a1c;
+  color: #fff;
+}
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 500;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.btn-delete svg path, .btn-delete svg {
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.btn-delete:hover {
+  background: #b91c1c;
+  color: #fff;
+}
+.custom-close {
+  background: #e5e7eb !important;
+  border-radius: 50%;
+  width: 36px !important;
+  height: 36px !important;
+  opacity: 1;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-close:hover {
+  background: #2563eb !important;
+}
+
+.toast-container {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  z-index: 2147483647; /* pastikan toast selalu di atas modal dan elemen lain */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  pointer-events: none; /* biar tidak mengganggu klik modal */
+}
+.toast {
+  min-width: 220px;
+  max-width: 320px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(80,120,200,0.10);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.3s;
+}
+.toast-create {
+  background: linear-gradient(90deg, #38bdf8 60%, #61a5ff 100%);
+}
+.toast-update {
+  background: linear-gradient(90deg, #f59e42 60%, #fbbf24 100%);
+}
+.toast-delete {
+  background: linear-gradient(90deg, #ef4444 60%, #f87171 100%);
+}
+.toast-error {
+  background: linear-gradient(90deg, #f87171 60%, #ef4444 100%);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

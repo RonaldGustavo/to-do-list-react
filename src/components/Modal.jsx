@@ -12,6 +12,7 @@ const ModalComponent = ({
   selectedBookId,
   data,
   setData,
+  showToast,
 }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -23,10 +24,10 @@ const ModalComponent = ({
   };
 
   const handleDelete = () => {
-    alert("Data berhasil dihapus");
     const updatedBook = data.filter((data) => data?.id !== selectedBookId);
     setData(updatedBook);
     setShowModal(null);
+    if (showToast) showToast("Task deleted successfully", "delete");
   };
 
   const handleUpdate = () => {
@@ -36,38 +37,29 @@ const ModalComponent = ({
       body: body,
       archived: archived,
       createdAt: createdAt,
+      status: selectedBook?.status || "todo",
     };
-
     if (!title && !body && !createdAt) {
-      alert("Form wajib di isi semua!!!");
+      if (showToast) showToast("All fields are required!", "error");
+      return;
     } else {
       const bookIndex = data.findIndex((book) => book?.id === selectedBookId);
-
       if (bookIndex !== -1) {
-        // Create a new array with the updated user
         const updateBooks = [...data];
         updateBooks[bookIndex] = updateBook;
-
         setData(updateBooks);
-        // Reset the input fields
         setBody("");
         setTitle("");
         setarchived("");
         setcreatedAt("");
+        if (showToast) showToast("Task updated successfully", "update");
       }
-      alert("update");
       setShowModal(null);
     }
-
-    console.log(title);
-    console.log(createdAt);
   };
-
-  // console.log(isSave);
 
   const selectedBook = data.find((book) => book?.id === selectedBookId);
 
-  // console.log(selectedBook);
   return (
     <>
       {modals.map((modal) => (
@@ -75,13 +67,14 @@ const ModalComponent = ({
           key={modal.title}
           show={showModal === modal.title}
           onHide={closeModal}
+          centered
         >
-          <Modal.Header closeButton>
-            <Modal.Title>{modal.title}</Modal.Title>
+          <Modal.Header closeButton className="modal-header">
+            <Modal.Title className="modal-title">{modal.title} Task</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {modal.title === "View" ? (
-              <ModalView data={selectedBook} />
+              <ModalView data={selectedBook} onClose={closeModal} />
             ) : modal.title === "Update" ? (
               <ModalUpdate
                 data={selectedBook}
@@ -95,13 +88,17 @@ const ModalComponent = ({
             )}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Tutup
+            <Button className="btn-cancel" onClick={closeModal}>
+              Cancel
             </Button>
             {isSave && (
               <Button
-                variant="primary"
-                onClick={modal.title === "Update" ? handleUpdate : handleDelete}
+                className={
+                  modal.title === "Update" ? "btn-save" : "btn-delete"
+                }
+                onClick={
+                  modal.title === "Update" ? handleUpdate : handleDelete
+                }
               >
                 {modal.title === "Update" ? "Save" : "Delete"}
               </Button>

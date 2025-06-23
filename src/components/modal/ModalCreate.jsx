@@ -3,7 +3,14 @@ import { Button, Modal } from "react-bootstrap";
 import { generateId } from "../../utils/GenerateID";
 import { handleClear } from "../../utils/HandleClear";
 
-const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
+const CloseIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
+    <path d="M7 7L13 13M13 7L7 13" stroke="#23272f" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const ModalCreate = ({ setShowModal, showModal, data, setData, showToast }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [archived, setarchived] = useState("");
@@ -17,10 +24,9 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
   };
 
   const id = generateId();
-  // console.log("test", data);
   const handleCreate = () => {
     if (!title || !body || !createdAt) {
-      alert("wajib di isi");
+      if (showToast) showToast('All fields are required!', 'error');
     } else {
       const newBook = {
         id: id,
@@ -28,14 +34,12 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
         body: body,
         archived: archived,
         createdAt: createdAt,
+        status: 'todo',
       };
-
       const newData = [...data, newBook];
       setData(newData);
-
       handleClear(clearState);
-
-      alert("berhasil");
+      if (showToast) showToast('Task created successfully', 'create');
       setShowModal(null);
     }
   };
@@ -49,70 +53,62 @@ const ModalCreate = ({ setShowModal, showModal, data, setData }) => {
   };
 
   return (
-    <>
-      <Modal key={"create"} show={showModal === "create"} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <label htmlFor="title">title</label>
-            <br />
-            <input
-              id="title"
-              name="title"
-              className="input__form"
-              placeholder="input Title"
-              value={title}
-              onChange={handleTitleChange}
-            />
-            <br />
-            <p style={{ color: "red", fontSize: "0.8rem" }}>
-              {limit} left characters
-            </p>
-            <label htmlFor="body">body</label>
-            <br />
-            <textarea
-              id="body"
-              name="body"
-              className="input__form"
-              placeholder={`Input Body (Max ${limit} characters)`}
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-            />
-            <br />
-            {/* <label htmlFor="archived">archived</label>
-            <br />
-            <select
-              id="archived"
-              name="archived"
-              className="input__form"
-              value={archived}
-              onChange={(e) => setarchived(e.target.value)}
-            >
-              <option value="true">true</option>
-              <option value="false">false</option>
-            </select> */}
-            <label htmlFor="createdAt">createdAt</label>
-            <br />
-            <input
-              type="date"
-              id="createdAt"
-              name="createdAt"
-              className="input__form"
-              value={createdAt}
-              onChange={(e) => setcreatedAt(e.target.value)}
-            />
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Tutup
-          </Button>
-          <Button onClick={handleCreate}>Save</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal key={"create"} show={showModal === "create"} onHide={closeModal} centered dialogClassName="modal">
+      <Modal.Header style={{ border: 'none', background: 'transparent', display: 'flex', alignItems: 'center' }}>
+        <Modal.Title className="modal-title" style={{ flex: 1 }}>Create New Task</Modal.Title>
+        <button
+          type="button"
+          className="btn-close custom-close"
+          aria-label="Close"
+          onClick={closeModal}
+          style={{ background: 'none', border: 'none', padding: 0, marginLeft: 8, cursor: 'pointer', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <CloseIcon />
+        </button>
+      </Modal.Header>
+      <Modal.Body>
+        <form style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <label htmlFor="title" style={{ fontWeight: 600, marginBottom: 4 }}>Title</label>
+          <input
+            id="title"
+            name="title"
+            className="input__form"
+            placeholder="Input Title"
+            value={title}
+            onChange={handleTitleChange}
+            autoFocus
+          />
+          <span style={{ color: '#38bdf8', fontSize: '0.85rem', alignSelf: 'flex-end' }}>{limit} characters left</span>
+          <label htmlFor="body" style={{ fontWeight: 600, marginBottom: 4 }}>Description</label>
+          <textarea
+            id="body"
+            name="body"
+            className="input__form"
+            placeholder={`Input Description (Max 50 characters)`}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows={3}
+          />
+          <label htmlFor="createdAt" style={{ fontWeight: 600, marginBottom: 4 }}>Due Date</label>
+          <input
+            type="date"
+            id="createdAt"
+            name="createdAt"
+            className="input__form"
+            value={createdAt}
+            onChange={(e) => setcreatedAt(e.target.value)}
+          />
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button className="btn-cancel" onClick={closeModal}>
+          Cancel
+        </Button>
+        <Button className="btn-save" onClick={handleCreate}>
+          Save
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
