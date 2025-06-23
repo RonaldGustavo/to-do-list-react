@@ -75,23 +75,22 @@ export const bookData = [
   },
 ];
 
-
 export const modals = [
   {
     id: bookData[0]?.id,
-    title: "View Details",
+    title: "View",
     body: "Lihat informasi detail tentang Babel.",
     isSave: false,
   },
   {
     id: bookData[1]?.id,
-    title: "Edit Task",
+    title: "Update",
     body: "Ubah informasi komponen fungsional dalam ToDoList.",
     isSave: true,
   },
   {
     id: bookData[2]?.id,
-    title: "Delete Task",
+    title: "Delete",
     body: "Apakah Anda yakin ingin menghapus topik Modularization?",
     isSave: true,
   },

@@ -10,15 +10,6 @@ const CloseIcon = () => (
 const ModalView = ({ data, onClose }) => {
   return (
     <div style={{ position: 'relative', paddingTop: 8 }}>
-      <button
-        type="button"
-        className="btn-close custom-close"
-        aria-label="Close"
-        onClick={onClose}
-        style={{ background: 'none', border: 'none', padding: 0, position: 'absolute', top: 8, right: 8, cursor: 'pointer', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}
-      >
-        <CloseIcon />
-      </button>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
         <label htmlFor="id" style={{ fontWeight: 600, marginBottom: 4 }}>ID</label>
         <input
