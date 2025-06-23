@@ -74,7 +74,7 @@ const ModalComponent = ({
           </Modal.Header>
           <Modal.Body>
             {modal.title === "View" ? (
-              <ModalView data={selectedBook} onClose={closeModal} />
+              <ModalView data={selectedBook} />
             ) : modal.title === "Update" ? (
               <ModalUpdate
                 data={selectedBook}

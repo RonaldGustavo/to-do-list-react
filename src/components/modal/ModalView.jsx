@@ -1,13 +1,6 @@
 import { generateDate } from "../../utils/GenerateDate";
 
-const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
-    <path d="M7 7L13 13M13 7L7 13" stroke="#23272f" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
-);
-
-const ModalView = ({ data, onClose }) => {
+const ModalView = ({ data }) => {
   return (
     <div style={{ position: 'relative', paddingTop: 8 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>

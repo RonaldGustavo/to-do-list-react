@@ -36,7 +36,6 @@ body {
   box-shadow: 0 8px 32px rgba(97,165,255,0.18), 0 2px 8px rgba(0,0,0,0.10);
   border: 2px solid #61a5ff;
   transform: translateY(-2px) scale(1.02);
-  /* No text or color changes on hover for consistency */
 }
 .task-card.jira-card-view.drag-over {
   border: 2px solid #61a5ff;
@@ -429,11 +428,11 @@ button:hover, .btn:hover {
   position: fixed;
   top: 32px;
   right: 32px;
-  z-index: 2147483647; /* pastikan toast selalu di atas modal dan elemen lain */
+  z-index: 2147483647;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  pointer-events: none; /* biar tidak mengganggu klik modal */
+  pointer-events: none;
 }
 .toast {
   min-width: 220px;

@@ -3,7 +3,7 @@ import { generateDate } from "../utils/GenerateDate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const DataBook = ({ data, setData, onDragStart, dragOverId, boardMode, handleModal }) => {
+const DataBook = ({ data, onDragStart, boardMode, handleModal }) => {
   return (
     <>
       {data.map((data) => (

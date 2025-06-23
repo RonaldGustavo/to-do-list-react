@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DataBook from "../components/DataBook";
 import HeaderLayout from "../components/HeaderLayout";
 import { bookData } from "../data";
@@ -86,11 +86,7 @@ const HomePage = () => {
               <h2 className={col.key}>{col.label}</h2>
               <DataBook
                 data={filterData.filter((item) => item.status === col.key)}
-                setData={setData}
                 onDragStart={onDragStart}
-                dragOverId={null}
-                onDragOver={() => {}}
-                onDrop={() => {}}
                 boardMode={true}
                 handleModal={handleModal}
               />
