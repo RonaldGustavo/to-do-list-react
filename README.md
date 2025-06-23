@@ -8,12 +8,23 @@ A modern task management ToDoList app designed with a board-style interface to s
 - **Node.js** – Backend runtime environment for server-side features  
 - **CSS (Vanilla CSS)** – Used for styling components without relying on external libraries or frameworks  
 
-
 ## ✨ UI Preview
 
-Here is the UI of this portfolio:
+Here is the UI of this Todolist app:
 
-![My Portfolio Landing Page](https://github.com/RonaldGustavo/personal-app-ronald/blob/main/public/assets/image/UI-HOME1.png)
+![Landing Page](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_Landing.png)
+
+![Detail Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_detail.png)
+
+![Moved Task Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_movestask.png)
+
+![Create Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_create.png)
+
+![Edit Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_Edit.png)
+
+![Delete Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_Delete.png)
+
+![Search Feature](https://github.com/RonaldGustavo/to-do-list-react/blob/main/public/images/UI_Search.png)
 
 > You can also view the live site [here](https://to-do-list-react-nine-ruby.vercel.app/)
 
