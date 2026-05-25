@@ -4,14 +4,6 @@ import ModalCreate from "./modal/ModalCreate";
 const HeaderLayout = ({ data, setData, setSearch, showToast }) => {
   const [showModal, setShowModal] = useState(null);
 
-  const openModal = (modalTitle) => {
-    setShowModal(modalTitle);
-  };
-
-  const handleModal = (modalTitle) => {
-    openModal(modalTitle);
-  };
-
   return (
     <>
       <ModalCreate
@@ -21,14 +13,16 @@ const HeaderLayout = ({ data, setData, setSearch, showToast }) => {
         setData={setData}
         showToast={showToast}
       />
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div className="header-actions">
         <input
           type="text"
-          placeholder="Search your tasks..."
+          placeholder="Search tasks..."
           className="search-bar"
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="btn" style={{ fontWeight: 600, fontSize: '1rem', padding: '10px 22px', background: 'linear-gradient(90deg, #38bdf8 60%, #61a5ff 100%)', color: '#fff' }} onClick={() => handleModal("create")}>+ Create</button>
+        <button className="btn-create" onClick={() => setShowModal("create")}>
+          + New Task
+        </button>
       </div>
     </>
   );

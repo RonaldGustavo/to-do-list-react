@@ -1,112 +1,121 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { generateId } from "../../utils/GenerateID";
 import { handleClear } from "../../utils/HandleClear";
 
-const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
-    <path d="M7 7L13 13M13 7L7 13" stroke="#23272f" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
-);
+const today = () => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
 
 const ModalCreate = ({ setShowModal, showModal, data, setData, showToast }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [archived, setarchived] = useState("");
-  const [createdAt, setcreatedAt] = useState("");
+  const [createdAt, setcreatedAt] = useState(null);
   const [limit, setLimit] = useState(50);
-  const clearState = [setTitle, setBody, setarchived, setcreatedAt];
+  const clearState = [setTitle, setBody, setarchived];
 
   const closeModal = () => {
     setShowModal(null);
     handleClear(clearState);
+    setcreatedAt(null);
+    setLimit(50);
   };
 
-  const id = generateId();
   const handleCreate = () => {
     if (!title || !body || !createdAt) {
-      if (showToast) showToast('All fields are required!', 'error');
-    } else {
-      const newBook = {
-        id: id,
-        title: title,
-        body: body,
-        archived: archived,
-        createdAt: createdAt,
-        status: 'todo',
-      };
-      const newData = [...data, newBook];
-      setData(newData);
-      handleClear(clearState);
-      if (showToast) showToast('Task created successfully', 'create');
-      setShowModal(null);
+      if (showToast) showToast("Semua field wajib diisi!", "delete");
+      return;
     }
+    if (createdAt < today()) {
+      if (showToast) showToast("Tanggal tidak boleh sebelum hari ini!", "delete");
+      return;
+    }
+    const newBook = {
+      id: generateId(),
+      title,
+      body,
+      archived,
+      createdAt: createdAt.toISOString(),
+      status: "todo",
+    };
+    setData([...data, newBook]);
+    handleClear(clearState);
+    setcreatedAt(null);
+    setLimit(50);
+    if (showToast) showToast("Task berhasil dibuat!", "create");
+    setShowModal(null);
   };
 
   const handleTitleChange = (e) => {
-    const newValue = e.target.value;
-    if (newValue.length <= 50) {
-      setTitle(newValue);
-      setLimit(50 - newValue.length);
+    if (e.target.value.length <= 50) {
+      setTitle(e.target.value);
+      setLimit(50 - e.target.value.length);
     }
   };
 
   return (
-    <Modal key={"create"} show={showModal === "create"} onHide={closeModal} centered dialogClassName="modal">
-      <Modal.Header style={{ border: 'none', background: 'transparent', display: 'flex', alignItems: 'center' }}>
-        <Modal.Title className="modal-title" style={{ flex: 1 }}>Create New Task</Modal.Title>
-        <button
-          type="button"
-          className="btn-close custom-close"
-          aria-label="Close"
-          onClick={closeModal}
-          style={{ background: 'none', border: 'none', padding: 0, marginLeft: 8, cursor: 'pointer', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <CloseIcon />
+    <Modal show={showModal === "create"} onHide={closeModal} centered>
+      <Modal.Header>
+        <Modal.Title className="modal-title">Create New Task</Modal.Title>
+        <button className="custom-close" onClick={closeModal} aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 1L13 13M13 1L1 13" stroke="#a1a1aa" strokeWidth="2" strokeLinecap="round" />
+          </svg>
         </button>
       </Modal.Header>
+
       <Modal.Body>
-        <form style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <label htmlFor="title" style={{ fontWeight: 600, marginBottom: 4 }}>Title</label>
-          <input
-            id="title"
-            name="title"
-            className="input__form"
-            placeholder="Input Title"
-            value={title}
-            onChange={handleTitleChange}
-            autoFocus
-          />
-          <span style={{ color: '#38bdf8', fontSize: '0.85rem', alignSelf: 'flex-end' }}>{limit} characters left</span>
-          <label htmlFor="body" style={{ fontWeight: 600, marginBottom: 4 }}>Description</label>
-          <textarea
-            id="body"
-            name="body"
-            className="input__form"
-            placeholder={`Input Description (Max 50 characters)`}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={3}
-          />
-          <label htmlFor="createdAt" style={{ fontWeight: 600, marginBottom: 4 }}>Due Date</label>
-          <input
-            type="date"
-            id="createdAt"
-            name="createdAt"
-            className="input__form"
-            value={createdAt}
-            onChange={(e) => setcreatedAt(e.target.value)}
-          />
-        </form>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div>
+            <label htmlFor="c-title">Title</label>
+            <input
+              id="c-title"
+              className="input__form"
+              placeholder="Enter task title"
+              value={title}
+              onChange={handleTitleChange}
+              autoFocus
+            />
+            <p className="char-hint">{limit} characters left</p>
+          </div>
+          <div>
+            <label htmlFor="c-body">Description</label>
+            <textarea
+              id="c-body"
+              className="input__form"
+              placeholder="Enter task description"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              rows={3}
+            />
+          </div>
+          <div>
+            <label>Due Date</label>
+            <DatePicker
+              selected={createdAt}
+              onChange={(date) => setcreatedAt(date)}
+              minDate={today()}
+              dateFormat="dd MMM yyyy"
+              placeholderText="Pilih tanggal..."
+              className="input__form datepicker-input"
+              calendarClassName="dark-calendar"
+              wrapperClassName="datepicker-wrapper"
+              popperPlacement="bottom-start"
+              showPopperArrow={false}
+              autoComplete="off"
+            />
+          </div>
+        </div>
       </Modal.Body>
+
       <Modal.Footer>
-        <Button className="btn-cancel" onClick={closeModal}>
-          Cancel
-        </Button>
-        <Button className="btn-save" onClick={handleCreate}>
-          Save
-        </Button>
+        <Button className="btn-cancel" onClick={closeModal}>Cancel</Button>
+        <Button className="btn-save" onClick={handleCreate}>Create</Button>
       </Modal.Footer>
     </Modal>
   );

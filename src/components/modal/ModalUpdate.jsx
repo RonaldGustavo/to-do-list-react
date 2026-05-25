@@ -1,77 +1,98 @@
 import { useState, useEffect } from "react";
-import { formatDate } from "../../utils/GenerateDate";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const ModalUpdate = ({ data, setTitle, setBody, setarchived, setcreatedAt }) => {
+const today = () => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+
+const toDateObj = (val) => {
+  if (!val) return null;
+  const d = new Date(val);
+  return isNaN(d.getTime()) ? null : d;
+};
+
+const ModalUpdate = ({ data, setTitle, setBody, setarchived, setcreatedAt, showToast }) => {
   const [title, setTitleLocal] = useState("");
   const [body, setBodyLocal] = useState("");
-  const [createdAt, setCreatedAtLocal] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [limit, setLimit] = useState(50);
 
   useEffect(() => {
     setTitleLocal(data.title || "");
     setBodyLocal(data.body || "");
-    setCreatedAtLocal(data.createdAt || "");
+    const d = toDateObj(data.createdAt);
+    setSelectedDate(d);
     setTitle(data.title || "");
     setBody(data.body || "");
     setcreatedAt(data.createdAt || "");
     setarchived(data.archived || "");
-    setLimit(50 - (data.title ? data.title.length : 0));
+    setLimit(50 - (data.title?.length || 0));
   }, [data]);
 
   const handleTitleChange = (e) => {
-    const newValue = e.target.value;
-    if (newValue.length <= 50) {
-      setTitleLocal(newValue);
-      setTitle(newValue);
-      setLimit(50 - newValue.length);
+    if (e.target.value.length <= 50) {
+      setTitleLocal(e.target.value);
+      setTitle(e.target.value);
+      setLimit(50 - e.target.value.length);
     }
   };
 
-  const handleBodyChange = (e) => {
-    setBodyLocal(e.target.value);
-    setBody(e.target.value);
-  };
-
-  const handleDateChange = (e) => {
-    setCreatedAtLocal(e.target.value);
-    setcreatedAt(e.target.value);
+  const handleDateChange = (date) => {
+    if (date && date < today()) {
+      if (showToast) showToast("Tanggal tidak boleh sebelum hari ini!", "delete");
+      return;
+    }
+    setSelectedDate(date);
+    setcreatedAt(date ? date.toISOString() : "");
   };
 
   return (
-    <form style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 8 }}>
-      <label htmlFor="id" style={{ fontWeight: 600, marginBottom: 4 }}>ID</label>
-      <input id="id" name="id" disabled className="input__form" value={data?.id} />
-      <label htmlFor="title" style={{ fontWeight: 600, marginBottom: 4 }}>Title</label>
-      <input
-        id="title"
-        name="title"
-        className="input__form"
-        placeholder={data.title}
-        value={title}
-        onChange={handleTitleChange}
-        autoFocus
-      />
-      <span style={{ color: "#38bdf8", fontSize: "0.85rem", alignSelf: "flex-end" }}>{limit} characters left</span>
-      <label htmlFor="body" style={{ fontWeight: 600, marginBottom: 4 }}>Description</label>
-      <textarea
-        id="body"
-        name="body"
-        className="input__form"
-        placeholder={data.body}
-        value={body}
-        onChange={handleBodyChange}
-        rows={3}
-      />
-      <label htmlFor="createdAt" style={{ fontWeight: 600, marginBottom: 4 }}>Due Date</label>
-      <input
-        type="date"
-        id="createdAt"
-        name="createdAt"
-        className="input__form"
-        value={createdAt ? createdAt : formatDate(data.createdAt)}
-        onChange={handleDateChange}
-      />
-    </form>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div>
+        <label>ID</label>
+        <input className="input__form" disabled value={data?.id} />
+      </div>
+      <div>
+        <label>Title</label>
+        <input
+          className="input__form"
+          placeholder={data.title}
+          value={title}
+          onChange={handleTitleChange}
+          autoFocus
+        />
+        <p className="char-hint">{limit} characters left</p>
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea
+          className="input__form"
+          placeholder={data.body}
+          value={body}
+          onChange={(e) => { setBodyLocal(e.target.value); setBody(e.target.value); }}
+          rows={3}
+        />
+      </div>
+      <div>
+        <label>Due Date</label>
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          minDate={today()}
+          dateFormat="dd MMM yyyy"
+          placeholderText="Pilih tanggal..."
+          className="input__form datepicker-input"
+          calendarClassName="dark-calendar"
+          wrapperClassName="datepicker-wrapper"
+          popperPlacement="bottom-start"
+          showPopperArrow={false}
+          autoComplete="off"
+        />
+      </div>
+    </div>
   );
 };
 

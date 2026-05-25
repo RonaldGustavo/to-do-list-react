@@ -42,6 +42,12 @@ const HomePage = () => {
   };
   const onDrop = (status) => {
     if (!draggedTask || draggedTask.status === status) return;
+    if (draggedTask.status === 'done') {
+      showToast('Task yang sudah Done tidak bisa dipindahkan kembali!', 'delete');
+      setDraggedTask(null);
+      setDragOverStatus(null);
+      return;
+    }
     setData((prev) =>
       prev.map((item) =>
         item.id === draggedTask.id ? { ...item, status } : item
@@ -49,7 +55,8 @@ const HomePage = () => {
     );
     setDraggedTask(null);
     setDragOverStatus(null);
-    showToast('Task moved to ' + status.replace('inprogress', 'In Progress').replace('todo', 'To Do').replace('done', 'Done'), 'update');
+    const labelMap = { inprogress: 'In Progress', todo: 'To Do', done: 'Done' };
+    showToast(`Task moved to ${labelMap[status]}`, 'update');
   };
 
   const showToast = (message, type) => {
@@ -76,22 +83,32 @@ const HomePage = () => {
           />
         </div>
         <div className="board-grid">
-          {statusList.map((col) => (
-            <div
-              key={col.key}
-              className={`board-column${dragOverStatus === col.key ? ' drag-over' : ''}`}
-              onDragOver={(e) => onDragOver(e, col.key)}
-              onDrop={() => onDrop(col.key)}
-            >
-              <h2 className={col.key}>{col.label}</h2>
-              <DataBook
-                data={filterData.filter((item) => item.status === col.key)}
-                onDragStart={onDragStart}
-                boardMode={true}
-                handleModal={handleModal}
-              />
-            </div>
-          ))}
+          {statusList.map((col) => {
+            const colItems = filterData.filter((item) => item.status === col.key);
+            const isDragBlocked = draggedTask?.status === 'done' && col.key !== 'done';
+            return (
+              <div
+                key={col.key}
+                className={`board-column board-column--${col.key}${dragOverStatus === col.key ? ' drag-over' : ''}${isDragBlocked ? ' drag-blocked' : ''}`}
+                onDragOver={(e) => onDragOver(e, col.key)}
+                onDrop={() => onDrop(col.key)}
+              >
+                <div className="board-column-header">
+                  <span className={`board-col-label board-col-label--${col.key}`}>{col.label}</span>
+                  <span className={`board-col-count board-col-count--${col.key}`}>{colItems.length}</span>
+                </div>
+                <DataBook
+                  data={colItems}
+                  onDragStart={onDragStart}
+                  boardMode={true}
+                  handleModal={handleModal}
+                />
+                {colItems.length === 0 && (
+                  <div className="board-empty-state">No tasks here</div>
+                )}
+              </div>
+            );
+          })}
         </div>
         <ModalComponent
           showModal={modalState.showModal}

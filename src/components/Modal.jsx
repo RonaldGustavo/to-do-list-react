@@ -82,6 +82,7 @@ const ModalComponent = ({
                 setBody={setBody}
                 setarchived={setarchived}
                 setcreatedAt={setcreatedAt}
+                showToast={showToast}
               />
             ) : (
               <ModalDelete data={selectedBook} />
