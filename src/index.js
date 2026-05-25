@@ -4,9 +4,8 @@ import App from "./config/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-// Bootstrap first so our CSS can override it
+// Bootstrap CSS first so our custom CSS can override it
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
