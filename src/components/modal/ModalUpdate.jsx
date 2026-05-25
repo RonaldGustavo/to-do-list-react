@@ -30,6 +30,7 @@ const ModalUpdate = ({ data, setTitle, setBody, setarchived, setcreatedAt, showT
     setcreatedAt(data.createdAt || "");
     setarchived(data.archived || "");
     setLimit(50 - (data.title?.length || 0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const handleTitleChange = (e) => {
